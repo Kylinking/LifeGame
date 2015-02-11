@@ -11,10 +11,11 @@ public class Game {
 		for (int i = 0; i != lives.length; i++) {
 			lives[i] = new Life();
 		}
+		LinkNeighbours();
 	}
 
 	@SuppressWarnings("unchecked")
-	public Game(List points) {
+	public Game(List<Integer> points) {
 		for (int i = 0; i != lives.length; i++) {
 			lives[i] = new Life();
 		}
@@ -97,12 +98,17 @@ public class Game {
 			lives[i].setNeighbour(neighbors);
 		}
 	}
-
+	public static Game GetInstance(){
+		if (game == null) {
+			game = new Game();
+		}
+		return game;
+	}
 	public Life[] GetLives() {
 		return lives;
 	}
 
-	public static Game Initialize() {
+	public Game Initialize() {
 		if (game == null) {
 			game = new Game();
 		}
@@ -110,7 +116,7 @@ public class Game {
 		return game;
 	}
 
-	public static Game Initialize(ArrayList<Integer> list) {
+	public Game Initialize(ArrayList<Integer> list) {
 		if (game == null) {
 			game = new Game();
 		}
