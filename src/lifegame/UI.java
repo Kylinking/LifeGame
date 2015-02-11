@@ -8,23 +8,27 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class UI {
 
-	public Game game;
+	Game game;
 	JFrame frame;
 	JPanel pane;
 
 	@SuppressWarnings("serial")
 	public static void main(String[] args) {
+		
 		Timer timer = new Timer();
-		// TODO Auto-generated method stub
-		final UI GameUI = new UI();		
-		GameUI.game = new Game();
+
+		final UI GameUI = new UI();	
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i=0;i<20;i++){
+			list.add(i);
+		}
+		GameUI.game = Game.Initialize(list);
+		
 		GameUI.frame = new JFrame("LifeGame");
 		GameUI.frame.setSize(640, 640);
 		GameUI.frame.setVisible(true);
@@ -33,37 +37,35 @@ public class UI {
 		GameUI.pane = new JPanel() {
 			public void paint(Graphics g) {
 				super.paint(g);
-				Life[] lives = GameUI.game.GetLives();
+				//Life[] lives = GameUI.game.GetLives();
 				g.clearRect(0, 0, getWidth(), getHeight());
 				g.setColor(Color.BLUE);
-				for (int i = 0; i != lives.length; i++) {
+				for (int i = 0; i != GameUI.game.GetLives().length; i++) {
 					int x = i % 64 * 10;
 					int y = i / 64 * 10;
-					if (lives[i].isLive()) {
-						g.drawRect(x, y, 10, 10);
+					if (GameUI.game.GetLives()[i].isLive()) {
+						g.fillRect(x, y, 10, 10);
 					}
-				}
-				GameUI.game.NextGeneratation();
-				// System.out.println("Hello");
+				}				
 			}
 		};
+		
 		GameUI.frame.add(GameUI.pane);
-		timer.schedule(new TimerTaskTest(GameUI.pane), 0, 1000);
+		timer.schedule(new TimerTaskTest(GameUI.pane,GameUI.game), 3000, 1000);
 	}
 
 	static class TimerTaskTest extends TimerTask {
 		JPanel panel;
-
-		TimerTaskTest(JPanel panel) {
+		Game game;
+		TimerTaskTest(JPanel panel,Game game) {
 			this.panel = panel;
+			this.game = game;
 		}
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
-
+			game.NextGeneratation();
 			panel.repaint();
-
 		}
 
 	}

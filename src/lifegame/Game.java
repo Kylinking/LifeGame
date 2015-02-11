@@ -4,34 +4,27 @@ import java.util.*;
 
 public class Game {
 	public int lifeCount;
-	private Life[] lives = new Life[64*64];
-	private boolean isGoOn; 
-	
-	public Game() {
+	private Life[] lives = new Life[64 * 64];
+	private static Game game;
+
+	private Game() {
 		for (int i = 0; i != lives.length; i++) {
 			lives[i] = new Life();
 		}
-		lives[200].setLive();
-		lives[201].setLive();
-		lives[202].setLive();
-		lives[199+64].setLive();
-		lives[201+64].setLive();
-		lives[200+64].setLive();
-		LinkNeighbours();		
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Game(List points){
+	public Game(List points) {
 		for (int i = 0; i != lives.length; i++) {
 			lives[i] = new Life();
 		}
-		for(Integer j:(ArrayList<Integer>)points){
+		for (Integer j : (ArrayList<Integer>) points) {
 			lives[j.intValue()].setLive();
 		}
-		LinkNeighbours();	
+		LinkNeighbours();
 	}
-	
-	public void NextGeneratation(){	
+
+	public void NextGeneratation() {
 		for (Life i : lives) {
 			i.CheckRule();
 		}
@@ -39,10 +32,9 @@ public class Game {
 			i.RefreshNeighbours();
 		}
 	}
-	
-	private void LinkNeighbours()
-	{
-		for (int i = 0; i != lives.length; i++) {			
+
+	private void LinkNeighbours() {
+		for (int i = 0; i != lives.length; i++) {
 			ArrayList<Life> neighbors = new ArrayList<Life>();
 			int x = i % 64;
 			int y = i / 64;
@@ -103,11 +95,64 @@ public class Game {
 				}
 			}
 			lives[i].setNeighbour(neighbors);
-		}	
+		}
 	}
-		
-	public Life[] GetLives(){		
-		return lives;		
+
+	public Life[] GetLives() {
+		return lives;
 	}
-	
+
+	public static Game Initialize() {
+		if (game == null) {
+			game = new Game();
+		}
+		game.DefaultStartAt();
+		return game;
+	}
+
+	public static Game Initialize(ArrayList<Integer> list) {
+		if (game == null) {
+			game = new Game();
+		}
+		game.SetStartAt(list);
+		return game;
+	}
+
+	private void DefaultStartAt() {
+		game.lives[199 + 64 * 18].setLive();
+		game.lives[201 + 64 * 18].setLive();
+		game.lives[202 + 64 * 18].setLive();
+		game.lives[203 + 64 * 18].setLive();
+		game.lives[204 + 64 * 18].setLive();
+		game.lives[205 + 64 * 18].setLive();
+		game.lives[206 + 64 * 18].setLive();
+		game.lives[207 + 64 * 18].setLive();
+		game.lives[208 + 64 * 18].setLive();
+		// lives[209+64*18].setLive();
+		// lives[210+64*18].setLive();
+		// lives[211+64*18].setLive();
+		// lives[212+64*18].setLive();
+		game.LinkNeighbours();
+	}
+
+	private void SetStartAt(ArrayList<Integer> list) {
+		for (Integer i : list) {
+			game.lives[i.intValue()].setLive();
+		}
+		game.LinkNeighbours();
+	}
+
+	public void ReStartAt(ArrayList<Integer> list) {
+		if (game == null) {
+			game = new Game();
+		} else {
+			for (int i = 0; i != lives.length; i++) {
+				game.lives[i].cleanLive();
+			}
+		}
+		for (Integer i : list) {
+			game.lives[i.intValue()].setLive();
+		}
+		game.LinkNeighbours();
+	}
 }
