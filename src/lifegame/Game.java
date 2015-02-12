@@ -148,7 +148,7 @@ public class Game {
 		game.LinkNeighbours();
 	}
 
-	public void ReStartAt(ArrayList<Integer> list) {
+	public void RestartAt(ArrayList<Integer> list) {
 		if (game == null) {
 			game = new Game();
 		} else {
