@@ -129,15 +129,7 @@ class InitPanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		int x = arg0.getX() / 20;
-		int y = arg0.getY() / 20;
-		Graphics g = this.getGraphics();
-		g.setColor(Color.black);
-		g.fillRect(x * 20, y * 20, 20, 20);
-		g.setColor(Color.gray);
-		g.drawRect(x * 20, y * 20, 20, 20);
-		// System.out.println("x: " + x + " y: " + y);
-		this.selected.add(y * 64 + x);
+
 	}
 
 	@Override
@@ -155,6 +147,15 @@ class InitPanel extends JPanel implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
+		int x = arg0.getX() / 20;
+		int y = arg0.getY() / 20;
+		Graphics g = this.getGraphics();
+		g.setColor(Color.black);
+		g.fillRect(x * 20, y * 20, 20, 20);
+		g.setColor(Color.gray);
+		g.drawRect(x * 20, y * 20, 20, 20);
+		// System.out.println("x: " + x + " y: " + y);
+		this.selected.add(y * 64 + x);
 
 	}
 
